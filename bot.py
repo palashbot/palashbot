@@ -23,8 +23,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # যেকোনো message-এর উত্তর
  async def reply(update: update, context: ContextTypes.DEFAULT_TYPE):
-await update.message.reply_text if text elif ", "hello", "hi"]: রিপ্লাই হবে "👋 হ্যালো! কেমন আছো?" elif "কেমন আছো" in text: রিপ্লাই হবে "😊 আমি ভালো আছি। তুমি কেমন আছো?" elif "তোমার নাম" in text: রিপ্লাই "🤖 আমার নাম Palash AI Bot।" elif "ধন্যবাদ" in text: রিপ্লাই "❤️ স্বাগতম!" elif text in”, “goodbye”]: রিপ্লাই "👋 ভালো থেকো। আবার কথা হবে!" আর না মিললে ডিফল্ট: else: reply_text = f"তুমি লিখেছো: { update message text".
-def main():
+text = update.message.text.lower () if "hello or "hi in text: await update.message.reply_text ("👋 হ্যালো! কেমন আছো?") elif "কেমন আছো" in text : await update.message.reply_text ("😊 আমি ভালো আছি। তুমি কেমন আছো?") elif "তোমার নাম" in text: await update.message.reply_text("হ্যালো ("🤖 আমার নাম Palash AI Bot।") elif "ধন্যবাদ" in text: await update.message.reply_text("হ্যালো  ("❤️ স্বাগতম!") elif ("গুডবাই", "goodbye") in text : await update.message.reply_text ("👋 ভালো থেকো। আবার কথা হবে।") else : await update.message.reply_text (f"তুমি লিখেছ: {text}") এখন def main()
     if not TOKEN:
         print("BOT_TOKEN পাওয়া যায়নি!")
         return
