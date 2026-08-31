@@ -22,23 +22,50 @@ async def start(Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("হ্যালো! 👋 আমি Palash Bot।")
 
 # যেকোনো message-এর উত্তর
- async def reply(Update, context: ContextTypes.DEFAULT_TYPE):
-text = update.message.text. if ("hello or "hi) in text: await update.message.reply_text ("👋 হ্যালো! কেমন আছো?") elif "কেমন আছো" in text : await update.message.reply_text ("😊 আমি ভালো আছি। তুমি কেমন আছো?") elif "তোমার নাম" in text: await update.message.reply_text("হ্যালো ("🤖 আমার নাম Palash AI Bot।") elif "ধন্যবাদ" in text: await update.message.reply_text("হ্যালো  ("❤️ স্বাগতম!") elif ("গুডবাই", "goodbye") in text : await update.message.reply_text ("👋 ভালো থেকো। আবার কথা হবে।") else : await update.message.reply_text (f"তুমি লিখেছ: {text}") এখন def main()
-    if not TOKEN:
-        print("BOT_TOKEN পাওয়া যায়নি!")
-        return
+async def reply(update, context: ContextTypes.DEFAULT_TYPE):
+text = update.message.text.lower()
 
-    # Web server চালু
-    threading.Thread(target=run_web, daemon=True).start()
+if "hello" in text or "hi" in text:
+await update.message.reply_text("👋 হ্যালো! কেমন আছো?")
 
-    # Telegram bot চালু
-    application = Application.builder().token(TOKEN).build()
+elif "কেমন আছো" in text:
+await update.message.reply_text("😊 আমি ভালো আছি। তুমি কেমন আছো?")
 
-    application.add_handler(CommandHandler("start", start))
-    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, reply))
+elif "তোমার নাম" in text:
+await update.message.reply_text("🤖 আমার নাম Palash AI Bot।")
 
-    print("Palash Bot is running...")
-    application.run_polling()
+elif "ধন্যবাদ" in text:
+await update.message.reply_text("❤️ স্বাগতম!")
 
-if __name__ == "__main__":
-    main()
+elif "গুডবাই" in text or "goodbye" in text:
+await update.message.reply_text("👋 ভালো থেকো। আবার কথা হবে।")
+
+else:
+await update.message.reply_text(f"তুমি লিখেছ: {text}")
+
+
+def main():
+if not TOKEN:
+print("BOT_TOKEN পাওয়া যায়নি!")
+return
+
+# Web server চালু
+threading.Thread(target=run_web, daemon=True).start()
+
+# Telegram bot চালু
+application = Application.builder().token(TOKEN).build()
+
+application.add_handler(CommandHandler("start", start))
+application.add_handler(
+MessageHandler(filters.TEXT & ~filters.COMMAND, reply)
+)
+
+print("Palash Bot is running...")
+application.run_polling()
+
+
+if name == "main":
+main()
+
+
+
