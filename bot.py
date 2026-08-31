@@ -1,71 +1,103 @@
 import os
 import threading
+
 from flask import Flask
 from telegram import Update
-from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
+from telegram.ext import (
+    Application,
+    CommandHandler,
+    MessageHandler,
+    ContextTypes,
+    filters,
+)
 
-TOKEN = os.environ.get("BOT_TOKEN")
+TOKEN = os.getenv("BOT_TOKEN")
 
-# Render-এর জন্য ছোট web server
-web = Flask(__name__)
+# Web server
+app = Flask(__name__)
 
-@web.route("/")
+
+@app.route("/")
 def home():
     return "Palash Bot is running!"
 
+
 def run_web():
-    port = int(os.environ.get("PORT", 10000))
-    web.run(host="0.0.0.0", port=port)
+    port = int(os.getenv("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
+
 
 # Telegram /start command
-async def start(Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("হ্যালো! 👋 আমি Palash Bot।")
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text(
+        "হ্যালো! 👋 আমি Palash Bot।"
+    )
+
 
 # যেকোনো message-এর উত্তর
-async def reply(update, context: ContextTypes.DEFAULT_TYPE):
-text = update.message.text.lower()
+async def reply(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    text = update.message.text.lower()
 
-if "hello" in text or "hi" in text:
-await update.message.reply_text("👋 হ্যালো! কেমন আছো?")
+    if "hello" in text or "hi" in text:
+        await update.message.reply_text(
+            "👋 হ্যালো! কেমন আছো?"
+        )
 
-elif "কেমন আছো" in text:
-await update.message.reply_text("😊 আমি ভালো আছি। তুমি কেমন আছো?")
+    elif "কেমন আছো" in text:
+        await update.message.reply_text(
+            "😊 আমি ভালো আছি। তুমি কেমন আছো?"
+        )
 
-elif "তোমার নাম" in text:
-await update.message.reply_text("🤖 আমার নাম Palash AI Bot।")
+    elif "তোমার নাম" in text:
+        await update.message.reply_text(
+            "🤖 আমার নাম Palash AI Bot।"
+        )
 
-elif "ধন্যবাদ" in text:
-await update.message.reply_text("❤️ স্বাগতম!")
+    elif "ধন্যবাদ" in text:
+        await update.message.reply_text(
+            "❤️ স্বাগতম!"
+        )
 
-elif "গুডবাই" in text or "goodbye" in text:
-await update.message.reply_text("👋 ভালো থেকো। আবার কথা হবে।")
+    elif "গুডবাই" in text or "goodbye" in text:
+        await update.message.reply_text(
+            "👋 ভালো থেকো। আবার কথা হবে।"
+        )
 
-else:
-await update.message.reply_text(f"তুমি লিখেছ: {text}")
+    else:
+        await update.message.reply_text(
+            f"তুমি লিখেছ: {update.message.text}"
+        )
 
 
 def main():
-if not TOKEN:
-print("BOT_TOKEN পাওয়া যায়নি!")
-return
+    if not TOKEN:
+        print("BOT_TOKEN পাওয়া যায়নি!")
+        return
 
-# Web server চালু
-threading.Thread(target=run_web, daemon=True).start()
+    # Web server চালু
+    threading.Thread(
+        target=run_web,
+        daemon=True
+    ).start()
 
-# Telegram bot চালু
-application = Application.builder().token(TOKEN).build()
+    # Telegram bot চালু
+    application = Application.builder().token(TOKEN).build()
 
-application.add_handler(CommandHandler("start", start))
-application.add_handler(
-MessageHandler(filters.TEXT & ~filters.COMMAND, reply)
-)
+    application.add_handler(
+        CommandHandler("start", start)
+    )
 
-print("Palash Bot is running...")
-application.run_polling()
+    application.add_handler(
+        MessageHandler(
+            filters.TEXT & ~filters.COMMAND,
+            reply
+        )
+    )
+
+    print("Palash Bot is running...")
+
+    application.run_polling()
 
 
-if name == "main":
-main()
-
-
-
+if __name__ == "__main__":
+    main()
