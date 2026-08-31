@@ -18,11 +18,11 @@ def run_web():
     web.run(host="0.0.0.0", port=port)
 
 # Telegram /start command
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def start(Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("হ্যালো! 👋 আমি Palash Bot।")
 
 # যেকোনো message-এর উত্তর
- async def reply(update: update, context: ContextTypes.DEFAULT_TYPE):
+ async def reply(Update, context: ContextTypes.DEFAULT_TYPE):
 text = update.message.text. if ("hello or "hi) in text: await update.message.reply_text ("👋 হ্যালো! কেমন আছো?") elif "কেমন আছো" in text : await update.message.reply_text ("😊 আমি ভালো আছি। তুমি কেমন আছো?") elif "তোমার নাম" in text: await update.message.reply_text("হ্যালো ("🤖 আমার নাম Palash AI Bot।") elif "ধন্যবাদ" in text: await update.message.reply_text("হ্যালো  ("❤️ স্বাগতম!") elif ("গুডবাই", "goodbye") in text : await update.message.reply_text ("👋 ভালো থেকো। আবার কথা হবে।") else : await update.message.reply_text (f"তুমি লিখেছ: {text}") এখন def main()
     if not TOKEN:
         print("BOT_TOKEN পাওয়া যায়নি!")
